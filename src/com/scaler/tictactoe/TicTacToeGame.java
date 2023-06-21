@@ -14,7 +14,7 @@ public class TicTacToeGame {
         // dimension and players
 
         Scanner in = new Scanner(System.in);
-        System.out.println("Enter the dimension of the board");
+        System.out.println("Enter the dimension of the board: ");
         int dimension = in.nextInt();
 
         System.out.println("Are there any bots in this game? y/n");
@@ -38,10 +38,10 @@ public class TicTacToeGame {
         }
 
         for(int i=0;i<toIterate;i++){
-            System.out.println("Enter the name of the player:" + i+1);
+            System.out.println("Enter the name of the player:" + (i+1));
             String name = in.next();
 
-            System.out.println("Enter the symbol of the player:" + i+1);
+            System.out.println("Enter the symbol of the player:" + (i+1));
             char symbol = in.next().charAt(0);
 
             players.add(new Player(name, symbol, PlayerType.HUMAN));
@@ -51,5 +51,30 @@ public class TicTacToeGame {
         Game game = gameController.createGame(
                 dimension, players
         );
+
+        while(gameController.getGameStatus(game).equals(GameStatus.IN_PROGRESS)){
+
+            System.out.println("This is current state of the board:");
+
+            gameController.displayBoard(game);
+
+            System.out.println("Do you want to do a undo? y/n");
+            String isUndo = in.next();
+
+            if(isUndo.equals("y")){
+                gameController.undo(game);
+            }
+            else{
+                gameController.executeNextMove(game);
+            }
+        }
+
+        // DRAW or ENDED
+        System.out.println("Game has ended. The result was: ");
+        if(game.getGameStatus().equals(GameStatus.ENDED)){
+            System.out.println("The winner is: " + gameController.getWinner(game).getName());
+            gameController.displayBoard(game);
+        }
+
     }
 }

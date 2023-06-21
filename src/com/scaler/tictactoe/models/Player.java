@@ -13,11 +13,23 @@ public class Player {
     private PlayerType type;
 
     public Player(String name, char aChar, PlayerType type) {
-
+        this.name = name;
+        this.symbol = aChar;
+        this.type = type;
     }
 
     public Move decideMove(Board board) {
-       return null;
+        Scanner in = new Scanner(System.in);
+
+        System.out.println("Please tell the row where you want to make the move, " +
+                "starting the 0");
+        int row = in.nextInt();
+
+        System.out.println("Please tell the col where you want to make the move, " +
+                "starting the 0");
+        int col = in.nextInt();
+
+        return new Move(this, new Cell(row, col));
     }
 
     public char getSymbol() {

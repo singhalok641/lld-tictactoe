@@ -7,6 +7,7 @@ import com.scaler.tictactoe.strategies.botplayingstrategy.RandomBotPlayingStrate
 public class BotPlayingStrategyFactory {
 
     public static BotPlayingStrategy getStrategyForDifficultyLevel(BotDifficultyLevel difficultyLevel) {
+        // switch case
         return new RandomBotPlayingStrategy();
     }
 }

@@ -43,9 +43,41 @@ public class Game {
         return new Builder();
     }
 
+    //TODO:: Implement UNDO
     public void undo() {}
 
     public void makeNextMove() {
+        Player toMovePlayer = players.get(nextPlayerIndex);
+        System.out.println("It is " + toMovePlayer.getName() + "'s turn");
+
+        Move move = toMovePlayer.decideMove(board);
+
+        // validate the move
+
+        int row = move.getCell().getRow();
+        int col = move.getCell().getCol();
+
+        System.out.println("Move happened at: " + row + ", " + col + ".");
+
+        // update board
+        board.getBoard().get(row).get(col).setCellState(CellState.FILLED);
+        board.getBoard().get(row).get(col).setPlayer(toMovePlayer);
+
+        Move finalMove = new Move(
+                toMovePlayer,
+                board.getBoard().get(row).get(col)
+        );
+
+        moves.add(finalMove);
+
+        if(gameWinningStrategy.checkWinner(board,
+                 toMovePlayer, finalMove.getCell())){
+            gameStatus = GameStatus.ENDED;
+            winner = toMovePlayer;
+        }
+
+        nextPlayerIndex += 1;
+        nextPlayerIndex %= players.size();
     }
 
     public void displayBoard() {
@@ -135,6 +167,7 @@ public class Game {
             game.setPlayers(players);
             game.setMoves(new ArrayList<>());
             game.setBoard(new Board(dimension));
+            game.setGameWinningStrategy(new OrderOneGameWinningStrategy(dimension));
 
             game.setNextPlayerIndex(0);
 
@@ -142,3 +175,9 @@ public class Game {
         }
     }
 }
+
+/*
+1 2 3 4 5 6 7 8 9 10
+
+
+ */
