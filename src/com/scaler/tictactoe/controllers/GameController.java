@@ -13,7 +13,14 @@ public class GameController {
     }
 
     public Game createGame(int dimension, List<Player> players) {
-        return null;
+        try {
+            return Game.getBuilder()
+                    .setDimension(dimension)
+                    .setPlayers(players).build();
+        }
+        catch (Exception e){
+            return null;
+        }
     }
 
     public void displayBoard(Game game) {

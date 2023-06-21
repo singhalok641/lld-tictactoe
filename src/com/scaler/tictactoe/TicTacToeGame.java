@@ -10,6 +10,46 @@ import java.util.Scanner;
 public class TicTacToeGame {
 
     public static void main(String[] args) {
+        // It will take input
+        // dimension and players
 
+        Scanner in = new Scanner(System.in);
+        System.out.println("Enter the dimension of the board");
+        int dimension = in.nextInt();
+
+        System.out.println("Are there any bots in this game? y/n");
+        String isBotString = in.next();
+
+        List<Player> players = new ArrayList<>();
+        int toIterate = dimension - 1;
+
+        // TODO:: Add validation for already taken symbols
+
+        if(isBotString.equals("y")){
+            toIterate -= 1;
+            // Initialise the bot
+            System.out.println("Enter the name of the bot: ");
+            String name = in.next();
+
+            System.out.println("Enter the symbol of the bot: ");
+            char symbol = in.next().charAt(0);
+
+            players.add(new Bot(name, symbol, BotDifficultyLevel.EASY));
+        }
+
+        for(int i=0;i<toIterate;i++){
+            System.out.println("Enter the name of the player:" + i+1);
+            String name = in.next();
+
+            System.out.println("Enter the symbol of the player:" + i+1);
+            char symbol = in.next().charAt(0);
+
+            players.add(new Player(name, symbol, PlayerType.HUMAN));
+        }
+
+        GameController gameController = new GameController();
+        Game game = gameController.createGame(
+                dimension, players
+        );
     }
 }

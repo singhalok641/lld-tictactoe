@@ -6,6 +6,7 @@ import com.scaler.tictactoe.strategies.gamewinningstrategy.OrderOneGameWinningSt
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Game {
     private Board board;
@@ -13,6 +14,8 @@ public class Game {
     private List<Move> moves;
     private GameStatus gameStatus;
     private int nextPlayerIndex;
+
+    // Will check this later
     private GameWinningStrategy gameWinningStrategy;
     private Player winner;
 
@@ -32,6 +35,7 @@ public class Game {
         this.gameWinningStrategy = gameWinningStrategy;
     }
 
+    // private constructor for game
     private Game() {
     }
 
@@ -89,6 +93,52 @@ public class Game {
     }
 
     public static class Builder {
+        private int dimension;
+        private List<Player> players;
 
+        public Builder setDimension(int dimension) {
+            this.dimension = dimension;
+            return this;
+        }
+
+        public Builder setPlayers(List<Player> players) {
+            this.players = players;
+            return this;
+        }
+
+        private boolean validate() throws InvalidGameConstructionParametersException{
+            // 3 * 3 -> 2
+            // 2 * 2 -> 1
+            if(dimension < 3){
+                throw new InvalidGameConstructionParametersException("Dimension of " +
+                        "game can't be less than 3");
+            }
+
+            if(this.players.size() != this.dimension - 1){
+                throw new InvalidGameConstructionParametersException("The number of players" +
+                        "should be 1 less than the dimension of the board");
+            }
+
+            // Validate that no 2 players with same symbol
+
+            // Validate there is only 1 bot in the game
+
+            return true;
+        }
+
+        public Game build() throws InvalidGameConstructionParametersException {
+            // validations
+            validate();
+
+            Game game = new Game();
+            game.setGameStatus(GameStatus.IN_PROGRESS);
+            game.setPlayers(players);
+            game.setMoves(new ArrayList<>());
+            game.setBoard(new Board(dimension));
+
+            game.setNextPlayerIndex(0);
+
+            return game;
+        }
     }
 }

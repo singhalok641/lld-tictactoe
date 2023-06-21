@@ -3,8 +3,13 @@ package com.scaler.tictactoe.models;
 import java.util.Scanner;
 
 public class Player {
+
+    // 0, X
     private char symbol;
+
     private String name;
+
+    // Human or Bot
     private PlayerType type;
 
     public Player(String name, char aChar, PlayerType type) {
