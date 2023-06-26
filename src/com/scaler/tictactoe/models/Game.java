@@ -53,6 +53,7 @@ public class Game {
         Move move = toMovePlayer.decideMove(board);
 
         // validate the move
+        // TODO::
 
         int row = move.getCell().getRow();
         int col = move.getCell().getCol();
@@ -70,6 +71,8 @@ public class Game {
 
         moves.add(finalMove);
 
+        // Logic to check if this player won or not
+        // Optimisation: Check for this only if n moves are done by a player
         if(gameWinningStrategy.checkWinner(board,
                  toMovePlayer, finalMove.getCell())){
             gameStatus = GameStatus.ENDED;
